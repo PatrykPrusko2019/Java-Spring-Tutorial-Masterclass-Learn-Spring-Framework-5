@@ -3,7 +3,7 @@ package com.patrykprusko;
 import java.util.Random;
 
 public class NumberGeneratorImpl implements NumberGenerator{
-    private Random random;
+    private Random random = new Random();
     private int maxNumber;
 
     @Override
