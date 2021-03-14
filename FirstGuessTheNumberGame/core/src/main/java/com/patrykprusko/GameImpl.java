@@ -2,11 +2,13 @@ package com.patrykprusko;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-
+@Component
 public class GameImpl implements Game{
 
     public static final Logger log = LoggerFactory.getLogger(GameImpl.class);
@@ -22,7 +24,8 @@ public class GameImpl implements Game{
     private int remainingGuesses;
     private boolean validNumberRange = true;
 
-    public GameImpl(NumberGenerator numberGenerator, int guessCount) {
+    @Autowired
+    public GameImpl(NumberGenerator numberGenerator, @GuestCount int guessCount) {
         this.numberGenerator = numberGenerator;
         this.guessCount = guessCount;
     }
@@ -63,9 +66,15 @@ public class GameImpl implements Game{
         return remainingGuesses;
     }
 
+    @PostConstruct
     @Override
     public void reset() {
-
+        smallest = numberGenerator.getMinNumber();
+        guess = numberGenerator.getMinNumber();
+        remainingGuesses = guessCount;
+        biggest = numberGenerator.getMaxNumber();
+        number = numberGenerator.next();
+        log.debug("the number is {}", number);
     }
 
     @Override
