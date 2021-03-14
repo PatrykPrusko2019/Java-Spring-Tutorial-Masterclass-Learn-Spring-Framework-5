@@ -1,17 +1,20 @@
 package com.patrykprusko;
 
 public interface Game {
+
     int getNumber();
 
     int getGuess();
 
-    void setGuess(int i);
+    void setGuess(int guess);
 
     int getSmallest();
 
     int getBiggest();
 
     int getRemainingGuesses();
+
+    int getGuessCount();
 
     void reset();
 
@@ -22,4 +25,5 @@ public interface Game {
     boolean isGameWon();
 
     boolean isGameLost();
+
 }

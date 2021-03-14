@@ -1,23 +1,33 @@
 package com.patrykprusko;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
 @Component
-public class NumberGeneratorImpl implements NumberGenerator{
+public class NumberGeneratorImpl implements NumberGenerator {
+
+    // == fields ==
     private final Random random = new Random();
+
     private final int maxNumber;
+
     private final int minNumber;
 
-    public NumberGeneratorImpl(@MaxNumber int maxNumber,@MinNumber int minNumber) {
+    // == constructors ==
+
+    @Autowired
+    public NumberGeneratorImpl(@MaxNumber int maxNumber, @MinNumber int minNumber) {
         this.maxNumber = maxNumber;
         this.minNumber = minNumber;
     }
 
+    // == public methods ==
     @Override
     public int next() {
-        return random.nextInt(100) + 1;
+        // example:  min=5 max=20 -> max-min=15 -> range 0-15 + min -> 5-20
+        return random.nextInt(maxNumber - minNumber) + minNumber;
     }
 
     @Override
@@ -27,6 +37,6 @@ public class NumberGeneratorImpl implements NumberGenerator{
 
     @Override
     public int getMinNumber() {
-        return 0;
+        return minNumber;
     }
 }

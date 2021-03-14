@@ -9,33 +9,48 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Component
-public class GameImpl implements Game{
+public class GameImpl implements Game {
 
-    public static final Logger log = LoggerFactory.getLogger(GameImpl.class);
+    // == constants ==
+    private static final Logger log = LoggerFactory.getLogger(GameImpl.class);
 
-    //fields
-    private NumberGenerator numberGenerator;
+    // == fields ==
+    private final NumberGenerator numberGenerator;
+
     private final int guessCount;
 
-    private int guess; // user attempt
-    private int number; // random number
+    private int number;
+    private int guess;
     private int smallest;
     private int biggest;
     private int remainingGuesses;
     private boolean validNumberRange = true;
 
+    // == constructor ==
     @Autowired
-    public GameImpl(NumberGenerator numberGenerator, @GuestCount int guessCount) {
+    public GameImpl(NumberGenerator numberGenerator, @GuessCount int guessCount) {
         this.numberGenerator = numberGenerator;
         this.guessCount = guessCount;
     }
 
+    // == init ==
+    @PostConstruct
+    @Override
+    public void reset() {
+        smallest = numberGenerator.getMinNumber();
+        guess = numberGenerator.getMinNumber();
+        remainingGuesses = guessCount;
+        biggest = numberGenerator.getMaxNumber();
+        number = numberGenerator.next();
+        log.debug("the number is {}", number);
+    }
 
     @PreDestroy
     public void preDestroy() {
-        log.info("in game preDestroy");
+        log.info("in Game preDestroy()");
     }
 
+    // == public methods ==
     @Override
     public int getNumber() {
         return number;
@@ -47,8 +62,8 @@ public class GameImpl implements Game{
     }
 
     @Override
-    public void setGuess(int i) {
-        this.guess = i;
+    public void setGuess(int guess) {
+        this.guess = guess;
     }
 
     @Override
@@ -66,25 +81,22 @@ public class GameImpl implements Game{
         return remainingGuesses;
     }
 
-    @PostConstruct
     @Override
-    public void reset() {
-        smallest = numberGenerator.getMinNumber();
-        guess = numberGenerator.getMinNumber();
-        remainingGuesses = guessCount;
-        biggest = numberGenerator.getMaxNumber();
-        number = numberGenerator.next();
-        log.debug("the number is {}", number);
+    public int getGuessCount() {
+        return guessCount;
     }
 
     @Override
     public void check() {
+
         checkValidNumberRange();
 
         if(validNumberRange) {
-            if(guess > number) { // number by user > random number , example -> 51 > 30
-                biggest = guess - 1; // biggest = 50
-            } else { // smallest
+            if(guess > number) {
+                biggest = guess -1;
+            }
+
+            if(guess < number) {
                 smallest = guess + 1;
             }
         }
@@ -97,10 +109,6 @@ public class GameImpl implements Game{
         return validNumberRange;
     }
 
-    private void checkValidNumberRange() {
-        validNumberRange = (guess >= smallest) && (guess <= biggest);
-    }
-
     @Override
     public boolean isGameWon() {
         return guess == number;
@@ -108,6 +116,11 @@ public class GameImpl implements Game{
 
     @Override
     public boolean isGameLost() {
-        return  ( ! isGameWon() ) && remainingGuesses <= 0;
+        return !isGameWon() && remainingGuesses <= 0;
+    }
+
+    // == private methods ==
+    private void checkValidNumberRange() {
+        validNumberRange = (guess >= smallest) && (guess <= biggest);
     }
 }
