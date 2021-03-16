@@ -9,25 +9,25 @@ import javax.annotation.PostConstruct;
 @Component
 public class MessageGeneratorImpl implements MessageGenerator {
 
-    // == constants ==
+    // constants
     private static final Logger log = LoggerFactory.getLogger(MessageGeneratorImpl.class);
 
-    // == fields ==
+    //  fields
     private final Game game;
 
-    // == constructor ==
+    // constructor
 
 
     public MessageGeneratorImpl(Game game) {
         this.game = game;
     }
 
-    // == init ==
+    // init
     @PostConstruct
     public void init() {
         log.info("game = {}", game);
     }
-    // == public methods ==
+    //public methods
     @Override
     public String getMainMessage() {
         return "Number is between " +

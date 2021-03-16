@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+/**
+ *  Game -> guess what the number is from 1-100
+ */
 public class Main {
 
     private static final Logger log = LoggerFactory.getLogger(Main.class);

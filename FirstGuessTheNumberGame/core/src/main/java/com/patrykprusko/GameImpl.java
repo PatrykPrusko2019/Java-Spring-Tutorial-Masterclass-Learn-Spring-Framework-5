@@ -11,10 +11,10 @@ import javax.annotation.PreDestroy;
 @Component
 public class GameImpl implements Game {
 
-    // == constants ==
+    //  constants
     private static final Logger log = LoggerFactory.getLogger(GameImpl.class);
 
-    // == fields ==
+    //  fields
     private final NumberGenerator numberGenerator;
 
     private final int guessCount;
@@ -26,14 +26,14 @@ public class GameImpl implements Game {
     private int remainingGuesses;
     private boolean validNumberRange = true;
 
-    // == constructor ==
+    // constructor
     @Autowired
     public GameImpl(NumberGenerator numberGenerator, @GuessCount int guessCount) {
         this.numberGenerator = numberGenerator;
         this.guessCount = guessCount;
     }
 
-    // == init ==
+    //  init
     @PostConstruct
     @Override
     public void reset() {
@@ -50,7 +50,7 @@ public class GameImpl implements Game {
         log.info("in Game preDestroy()");
     }
 
-    // == public methods ==
+    // public methods
     @Override
     public int getNumber() {
         return number;
@@ -119,7 +119,7 @@ public class GameImpl implements Game {
         return !isGameWon() && remainingGuesses <= 0;
     }
 
-    // == private methods ==
+    //  private methods
     private void checkValidNumberRange() {
         validNumberRange = (guess >= smallest) && (guess <= biggest);
     }

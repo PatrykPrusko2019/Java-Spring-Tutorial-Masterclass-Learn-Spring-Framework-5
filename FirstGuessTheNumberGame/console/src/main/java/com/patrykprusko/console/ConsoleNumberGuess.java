@@ -13,21 +13,21 @@ import java.util.Scanner;
 @Component
 public class ConsoleNumberGuess {
 
-    // == constants ==
+    // constants
     private static final Logger log = LoggerFactory.getLogger(ConsoleNumberGuess.class);
 
-    // == fields ==
+    // fields
     private final Game game;
 
     private final MessageGenerator messageGenerator;
 
-    // == constructors ==
+    // constructors
     public ConsoleNumberGuess(Game game, MessageGenerator messageGenerator) {
         this.game = game;
         this.messageGenerator = messageGenerator;
     }
 
-    // == events ==
+    // events
     @EventListener(ContextRefreshedEvent.class)
     public void start() {
         log.info("start() --> Container ready for use.");
